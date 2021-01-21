@@ -3,23 +3,13 @@ package main
 import (
 	"log"
 	"net/http"
-	"path"
-	"strings"
+
+	"github.com/vaidd4/go-shorts/app"
 )
 
 func main() {
-	app := http.NewServeMux()
-	app.HandleFunc("/", appHandler)
+	mux := http.NewServeMux()
+	mux.HandleFunc("/", app.RootHandler)
 	log.Println("Server listening on http://localhost:8080")
-	log.Fatal(http.ListenAndServe(":8080", app))
-}
-
-//ShiftPath shift for each segments of path
-func ShiftPath(p string) (head, tail string) {
-	p = path.Clean("/" + p)
-	i := strings.Index(p[1:], "/") + 1
-	if i <= 0 {
-		return p[1:], "/"
-	}
-	return p[1:i], p[i:]
+	log.Fatal(http.ListenAndServe(":8080", mux))
 }

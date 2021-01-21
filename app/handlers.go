@@ -1,14 +1,16 @@
-package main
+package app
 
 import (
 	"log"
 	"net/http"
+
+	"github.com/vaidd4/go-shorts/util"
 )
 
-func appHandler(w http.ResponseWriter, r *http.Request) {
+//RootHandler Main handler for the app
+func RootHandler(w http.ResponseWriter, r *http.Request) {
 	var head string
-	head, r.URL.Path = ShiftPath(r.URL.Path)
-	log.Println(head)
+	head, r.URL.Path = util.ShiftPath(r.URL.Path)
 	switch head {
 	case "":
 		interfaceHandler(w, r)
@@ -33,7 +35,7 @@ func interfaceHandler(w http.ResponseWriter, r *http.Request) {
 
 func shortsHandler(w http.ResponseWriter, r *http.Request) {
 	var head string
-	head, r.URL.Path = ShiftPath(r.URL.Path)
+	head, r.URL.Path = util.ShiftPath(r.URL.Path)
 	if head == "" {
 		switch r.Method {
 		case http.MethodGet:
@@ -52,8 +54,7 @@ func shortsHandler(w http.ResponseWriter, r *http.Request) {
 			// Update a short.
 			http.Error(w, "Not Implemented", http.StatusNotImplemented)
 		case http.MethodDelete:
-			// Remove a short.
-			http.Error(w, "Not Implemented", http.StatusNotImplemented)
+			removeShort(w, r, head)
 		default:
 			http.Error(w, "Method Not Allowed", http.StatusMethodNotAllowed)
 		}
@@ -62,7 +63,6 @@ func shortsHandler(w http.ResponseWriter, r *http.Request) {
 
 func redirectHandler(w http.ResponseWriter, r *http.Request, head string) {
 	// Handle any url
-	// TODO: B. Search short and redirect 301 to url
 	switch r.Method {
 	case http.MethodGet:
 		// Redirect to URL
