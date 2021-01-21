@@ -1,12 +1,17 @@
 
 # Shorts - URL shortener
 
+Basic URL shortener in Go.
+
 ## API
 
-- GET `/`: Web Interface (NotImplemented)
-- GET/POST `/shorts`: retrieve/create Shorts
-- DELETE `/shorts/<id>`: delete a Short
-- GET `/<id>`: redirect to URL
+| METHOD | URL          | Description
+|:------:|--------------|-------------
+| GET    |`/`           | Web Interface (not implemented yet)
+| GET    |`/<id>`       | Redirect to URL
+| GET    |`/shorts`     | Retrieve all Shorts
+| POST   |`/shorts`     | Create a short
+| DELETE |`/shorts/<id>`| Remove a short
 
 ## Commands:
 
